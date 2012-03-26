@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>tileset.png</file>
+        <file>map.tmx</file>
+    </qresource>
+</RCC>
