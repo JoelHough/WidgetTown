@@ -12,11 +12,16 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     tilescene.cpp \
-    tile.cpp
+    tile.cpp \
+    character.cpp \
+    characterview.cpp
 
 HEADERS  += \
     tilescene.h \
-    tile.h
+    tile.h \
+    character.h \
+    Constants.h \
+    characterview.h
 
 FORMS    += widgettown.ui
 

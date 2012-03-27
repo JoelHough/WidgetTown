@@ -1,5 +1,5 @@
 #include "tile.h"
-
+#include "Constants.h"
 #include <QPainter>
 #include <QtDebug>
 
@@ -7,7 +7,7 @@ Tile::Tile(int width, int height, QGraphicsItem *parent) : QGraphicsLayoutItem()
 {
     w = width;
     h = height;
-    for (uint i = 0; i < LAYER_COUNT; i++) {
+    for (int i = 0; i < LAYER_COUNT; i++) {
         tilestack[i] = 0;
     }
     //qDebug() << "Pix: " << pix->width() << "x" << pix->height();
@@ -24,11 +24,14 @@ void paintTile(QPainter *painter, QPixmap *tilePix)
 
 void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(widget);
+    //Q_UNUSED(widget);
     Q_UNUSED(option);
-
-    for (uint i = 0; i < LAYER_COUNT; i++) {
+    qDebug() << widget;
+    for (int i = 0; i < LAYER_COUNT; i++) {
         paintTile(painter, tilestack[i]);
+        if (i == CHARACTER_LAYER) {
+            // TODO: Draw characters here
+        }
     }
 }
 

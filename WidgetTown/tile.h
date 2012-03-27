@@ -1,11 +1,12 @@
 #ifndef TILE_H
 #define TILE_H
 
+#include "Constants.h"
+
 #include <QGraphicsLayoutItem>
 #include <QGraphicsItem>
 #include <QPixmap>
 
-#define LAYER_COUNT 5
 class Tile : public QGraphicsLayoutItem, public QGraphicsItem
 {
 public:

@@ -72,10 +72,14 @@ TileScene::TileScene(QGraphicsWidget *parent) :
     grid->setSpacing(0); // No borders between tiles
     this->setLayout(grid);
 
+    // Read the layer data into the grid
     for (int i = 0; i < 4; i++) {
         qDebug() << "Reading layer " << i;
         readLayer(xml, grid, tiles, i);
     }
+    setFocusPolicy(Qt::StrongFocus);
+    setFlag(ItemIsFocusable);
+    grabKeyboard();
 }
 
 TileScene::~TileScene()
@@ -86,4 +90,23 @@ TileScene::~TileScene()
         tiles.replace(i, 0);
     }
     tiles.clear();
+}
+
+void TileScene::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_D) {
+        this->setPos(this->x() - 1, this->y());
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
+void TileScene::keyReleaseEvent(QKeyEvent *event)
+{
+}
+
+void TileScene::tick()
+{
+    qDebug() << this->boundingRect();
 }

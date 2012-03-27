@@ -12,9 +12,15 @@ class TileScene : public QGraphicsWidget
 public:
     TileScene(QGraphicsWidget *parent = 0);
     ~TileScene();
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
+
 signals:
     
 public slots:
+    void tick();
 
 private:
     QList<QPixmap*> tiles;
