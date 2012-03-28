@@ -62,7 +62,6 @@ void CharacterView::keyReleaseEvent(QKeyEvent *event)
 
 void CharacterView::tick()
 {
-    //horizontalScrollBar()->setValue(horizontalScrollBar()->value() - 1);
     if (character) {
         int dx = 0;
         int dy = 0;
