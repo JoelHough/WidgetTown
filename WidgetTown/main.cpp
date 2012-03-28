@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 #include <QCalendarWidget>
-#include <QX11EmbedWidget>
+#include <QLabel>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QBitmap>
@@ -46,38 +46,23 @@ int main(int argc, char *argv[])
     map->connect(frameTimer, SIGNAL(timeout()), map, SLOT(tick()));
     view.connect(frameTimer, SIGNAL(timeout()), &view, SLOT(tick()));
     frameTimer->start(1000 / 30);
-    //-----X11 Embed WIDGET------
-
-    //CustomProxy *embed = new CustomProxy(0, Qt::Window);
-//    embed->setWidget(new QX11EmbedContainer);
-//    embed->setScale(.10);
-//    embed->setPos(16+(14*32), 16+(8*32));
-//    embed->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
-//    embed->show();
 
 
-    QX11EmbedContainer container;
-    container.show();
+    CustomProxy *desk = new CustomProxy(0, Qt::Window);
+    desk->setWidget(new QLabel("I'm a Banana!"));
+    desk->setScale(.10);
+    desk->setPos(16 +(9 * 32), 16 + (7 *32));
 
+    desk->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 
-    QProcess * process = new QProcess(&container);
-    container.show();
-    QString executable("xterm");
-    QStringList arguments;
-    arguments << "-into";
-    arguments << QString::number(container.winId());
-    process->start(executable, arguments);
-    container.embedClient(container.winId());
-    //scene.addItem(embed);
-
-
+    scene.addItem(desk);
 
     //------CALENDAR WIDGET------
     CustomProxy *proxy = new CustomProxy(0, Qt::Window);
     proxy->setWidget(new QCalendarWidget);
     proxy->setScale(.10);
     proxy->setPos(16 +(16 * 32), 16 + (4 *32));
-    QRectF rect = proxy->boundingRect();
+
     proxy->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 
     scene.addItem(proxy);
