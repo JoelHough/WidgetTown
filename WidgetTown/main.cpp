@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
 
     // Set up frame timer
     QTimer *frameTimer = new QTimer();
-    map->connect(frameTimer, SIGNAL(timeout()), map, SLOT(tick()));
-    view.connect(frameTimer, SIGNAL(timeout()), &view, SLOT(tick()));
+    //map->connect(frameTimer, SIGNAL(timeout()), map, SLOT(tick()));
+    //view.connect(frameTimer, SIGNAL(timeout()), &view, SLOT(tick()));
     frameTimer->start(1000 / 30);
     //-----X11 Embed WIDGET------
 
@@ -57,21 +57,19 @@ int main(int argc, char *argv[])
 
 
     QX11EmbedContainer container;
-    container.show();
-
-
-    QProcess * process = new QProcess(&container);
-    container.show();
-    QString executable("xterm");
-    QStringList arguments;
-    arguments << "-into";
-    arguments << QString::number(container.winId());
-    process->start(executable, arguments);
-    container.embedClient(container.winId());
+    //QProcess * process = new QProcess(&container);
+    //QString executable("xterm");
+    //QStringList arguments;
+    //arguments << "-into";
+    //arguments << QString::number(container.winId());
+    //process->start(executable, arguments);
+    container.embedClient(0x500006f);
     //scene.addItem(embed);
-
-
-
+    scene.addWidget(&container);
+    container.show();
+    container.update();
+    container.repaint();
+    container.activateWindow();
     //------CALENDAR WIDGET------
     CustomProxy *proxy = new CustomProxy(0, Qt::Window);
     proxy->setWidget(new QCalendarWidget);

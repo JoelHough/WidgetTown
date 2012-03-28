@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QtDebug>
 
-Tile::Tile(int width, int height, QGraphicsItem *parent) : QGraphicsLayoutItem(), QGraphicsItem(parent)
+Tile::Tile(int width, int height, TileMapWidget *tilemap, QGraphicsItem *parent) : QGraphicsLayoutItem(), QGraphicsItem(parent)
 {
     w = width;
     h = height;

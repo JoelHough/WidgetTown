@@ -2,15 +2,15 @@
 #define TILE_H
 
 #include "Constants.h"
-
 #include <QGraphicsLayoutItem>
 #include <QGraphicsItem>
 #include <QPixmap>
+#include "tilescene.h"
 
 class Tile : public QGraphicsLayoutItem, public QGraphicsItem
 {
 public:
-    explicit Tile(int width, int height, QGraphicsItem *parent = 0);
+    explicit Tile(int width, int height, TileMapWidget *tilemap, QGraphicsItem *parent = 0);
     ~Tile();
 
     void setGeometry(const QRectF &rect);
@@ -20,7 +20,6 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     QPixmap* tilestack[LAYER_COUNT];
-
 private:
     int w, h;
 };

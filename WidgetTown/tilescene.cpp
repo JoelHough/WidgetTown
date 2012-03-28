@@ -67,7 +67,7 @@ TileMapWidget::TileMapWidget(QGraphicsWidget *parent) :
     {
         for (int x = 0; x < 100; x++)
         {
-            grid->addItem(new Tile(32, 32), y, x);
+            grid->addItem(new Tile(32, 32, this), y, x);
         }
     }
     grid->setSpacing(0); // No borders between tiles
