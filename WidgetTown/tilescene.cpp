@@ -1,3 +1,4 @@
+#include "character.h"
 #include "tilescene.h"
 #include "tile.h"
 
@@ -27,7 +28,7 @@ void readLayer(QXmlStreamReader &xml, QGraphicsGridLayout *grid, QList<QPixmap*>
     }
 }
 
-TileScene::TileScene(QGraphicsWidget *parent) :
+TileMapWidget::TileMapWidget(QGraphicsWidget *parent) :
     QGraphicsWidget(parent)
 {
     // Load the tileset.png resource into the tile list
@@ -77,12 +78,12 @@ TileScene::TileScene(QGraphicsWidget *parent) :
         qDebug() << "Reading layer " << i;
         readLayer(xml, grid, tiles, i);
     }
-    setFocusPolicy(Qt::StrongFocus);
-    setFlag(ItemIsFocusable);
-    grabKeyboard();
+    //setFocusPolicy(Qt::StrongFocus);
+    //setFlag(ItemIsFocusable);
+    //grabKeyboard();
 }
 
-TileScene::~TileScene()
+TileMapWidget::~TileMapWidget()
 {
     for (int i = 0; i < tiles.count(); i++)
     {
@@ -92,21 +93,23 @@ TileScene::~TileScene()
     tiles.clear();
 }
 
-void TileScene::keyPressEvent(QKeyEvent *event)
+void TileMapWidget::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_D) {
+    /*if (event->key() == Qt::Key_D) {
         this->setPos(this->x() - 1, this->y());
         event->accept();
     } else {
         event->ignore();
-    }
+    }*/
+    event->ignore();
 }
 
-void TileScene::keyReleaseEvent(QKeyEvent *event)
+void TileMapWidget::keyReleaseEvent(QKeyEvent *event)
 {
+    event->ignore();
 }
 
-void TileScene::tick()
+void TileMapWidget::tick()
 {
-    qDebug() << this->boundingRect();
+    //qDebug() << this->boundingRect();
 }

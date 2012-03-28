@@ -26,7 +26,7 @@ void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 {
     //Q_UNUSED(widget);
     Q_UNUSED(option);
-    qDebug() << widget;
+    //qDebug() << widget;
     for (int i = 0; i < LAYER_COUNT; i++) {
         paintTile(painter, tilestack[i]);
         if (i == CHARACTER_LAYER) {

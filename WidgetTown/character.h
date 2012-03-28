@@ -9,8 +9,13 @@ class Character : public QGraphicsItem
 public:
     Character(QPixmap *charsheet, QGraphicsItem *parent = 0);
 
-    QRectF boundingRect();
+    QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+protected:
+    int guyWidth;
+    int guyHeight;
+
 private:
     QPixmap *charsheet;
 };

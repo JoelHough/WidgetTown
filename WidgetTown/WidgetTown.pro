@@ -27,7 +27,8 @@ FORMS    += widgettown.ui
 
 OTHER_FILES += \
     tileset.png \
-    map.tmx
+    map.tmx \
+    nerd.png
 
 RESOURCES += \
     resources.qrc

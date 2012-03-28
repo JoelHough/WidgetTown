@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>tileset.png</file>
         <file>map.tmx</file>
+        <file>nerd.png</file>
     </qresource>
 </RCC>

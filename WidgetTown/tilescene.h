@@ -6,12 +6,12 @@
 #include <QPixmap>
 #include <QString>
 
-class TileScene : public QGraphicsWidget
+class TileMapWidget : public QGraphicsWidget
 {
     Q_OBJECT
 public:
-    TileScene(QGraphicsWidget *parent = 0);
-    ~TileScene();
+    TileMapWidget(QGraphicsWidget *parent = 0);
+    ~TileMapWidget();
 
 protected:
     void keyPressEvent(QKeyEvent *event);
