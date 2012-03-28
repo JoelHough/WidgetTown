@@ -96,6 +96,7 @@ void TileScene::loadMap(QString filename)
                 // tmx tile ids are 1-based with 0 indicating no tile
                 if (id) {
                     QGraphicsPixmapItem *tile = addPixmap(*tiles.at(id - 1));
+                    tile->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
                     tile->setPos(x * TILE_WIDTH, y * TILE_HEIGHT);
                     tile->setZValue(z);
                 }

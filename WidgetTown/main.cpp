@@ -78,6 +78,45 @@ int main(int argc, char *argv[])
     proxy->setZValue(LAYER_COUNT);
     scene.addItem(proxy);
 
+    // Add a second game
+    TileScene scene2(":/tileset.png", ":/map.tmx");
+    CharacterView view2(&scene2, 2);
+    view2.resize(300,300);
+    Player player2(":/nerd.png");
+    scene2.addCharacter(&player2);
+    view2.character = &player2;
+    player2.setFocus();
+    player2.setPos(14 * TILE_WIDTH, 20 * TILE_HEIGHT);
+    CustomProxy *thegame = new CustomProxy(0, Qt::Window);
+    thegame->setWidget(&view2);
+    thegame->setScale(.20);
+    thegame->setPos(TILE_WIDTH / 2 +(25 * TILE_WIDTH), TILE_HEIGHT / 2 + (25 * TILE_HEIGHT));
+    thegame->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+    thegame->setZValue(LAYER_COUNT);
+    scene.addItem(thegame);
+    view2.centerOn(&player2);
+    view2.connect(frameTimer, SIGNAL(timeout()), &view2, SLOT(tick()));
+    scene2.connect(frameTimer, SIGNAL(timeout()), &scene2, SLOT(tick()));
+
+    // Add a third game
+    TileScene scene3(":/tileset.png", ":/map.tmx");
+    CharacterView view3(&scene3, 3);
+    view3.resize(300,300);
+    Player player3(":/nerd.png");
+    scene3.addCharacter(&player3);
+    view3.character = &player3;
+    player3.setFocus();
+    player3.setPos(14 * TILE_WIDTH, 20 * TILE_HEIGHT);
+    CustomProxy *thegame2 = new CustomProxy(0, Qt::Window);
+    thegame2->setWidget(&view3);
+    thegame2->setScale(.20);
+    thegame2->setPos(TILE_WIDTH / 2 +(25 * TILE_WIDTH), TILE_HEIGHT / 2 + (25 * TILE_HEIGHT));
+    thegame2->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+    thegame2->setZValue(LAYER_COUNT);
+    scene2.addItem(thegame2);
+    view3.centerOn(&player3);
+    view3.connect(frameTimer, SIGNAL(timeout()), &view3, SLOT(tick()));
+    scene3.connect(frameTimer, SIGNAL(timeout()), &scene3, SLOT(tick()));
 
     view.centerOn(&player);
     view.show();

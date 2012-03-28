@@ -9,7 +9,6 @@ QT       += core gui
 TARGET = WidgetTown
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
     tilescene.cpp \
     character.cpp \
@@ -32,7 +31,10 @@ FORMS    += widgettown.ui
 OTHER_FILES += \
     tileset.png \
     map.tmx \
-    nerd.png
+    nerd.png \
+    bwah.mp3
 
 RESOURCES += \
     resources.qrc
+
+QMAKE_POST_LINK += $$quote(cp $${PWD}/bwah.mp3 .)
