@@ -1,30 +1,34 @@
 #ifndef TILESCENE_H
 #define TILESCENE_H
 
-#include <QGraphicsWidget>
+#include "character.h"
+
+#include <QElapsedTimer>
+#include <QObject>
+#include <QGraphicsScene>
 #include <QList>
 #include <QPixmap>
 #include <QString>
 
-class TileMapWidget : public QGraphicsWidget
+class TileScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    TileMapWidget(QGraphicsWidget *parent = 0);
-    ~TileMapWidget();
+    TileScene(QString tileset, QString map, QObject *parent = 0);
+    //~TileScene();
 
-protected:
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
+    void addCharacter(Character *character);
 
-signals:
-    
 public slots:
     void tick();
 
-private:
+protected:
     QList<QPixmap*> tiles;
+    QList<Character*> characters;
+    QElapsedTimer frameTimer;
 
+    void loadTiles(QString filename);
+    void loadMap(QString filename);
 };
 
 #endif // TILESCENE_H

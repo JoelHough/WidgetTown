@@ -1,115 +1,96 @@
-#include "character.h"
+#include "Constants.h"
 #include "tilescene.h"
-#include "tile.h"
 
-#include <QGraphicsGridLayout>
-#include <QtDebug>
-#include <QXmlStreamReader>
-#include <QFile>
-#include <QColor>
 #include <QBitmap>
+#include <QColor>
+#include <QFile>
+#include <QImage>
+#include <QGraphicsPixmapItem>
+#include <QXmlStreamReader>
 
-void readLayer(QXmlStreamReader &xml, QGraphicsGridLayout *grid, QList<QPixmap*> &tiles, int layer)
+#include <QtDebug>
+
+TileScene::TileScene(QString tileset, QString map, QObject *parent) : QGraphicsScene(parent)
 {
-    for (int y = 0; y < 100; y++)
-    {
-        for (int x = 0; x < 100; x++)
-        {
-            do {
-                xml.readNext();
-            } while (!xml.isStartElement() || xml.name() != "tile");
-            int id = xml.attributes().at(0).value().toString().toInt();
-            //qDebug() << "Tile ID:" << id;
-            // tmx tile ids are 1-based with 0 indicating no tile
-            if (id) {
-                ((Tile*)grid->itemAt(y, x))->tilestack[layer] = tiles.at(id - 1);
-            }
+    loadTiles(tileset);
+    loadMap(map);
+    setStickyFocus(true);
+    frameTimer.start();
+}
+
+void TileScene::addCharacter(Character *character)
+{
+    addItem(character);
+    characters.push_back(character);
+}
+
+void TileScene::tick()
+{
+    qreal elapsedSeconds = frameTimer.restart() / 1000.0;
+    for (int i = 0; i < characters.count(); i++) {
+        Character *character = characters.at(i);
+        QRectF startPos = character->boundingRect();
+        character->tick(elapsedSeconds);
+        if (character->moved) {
+            update(startPos);
+            update(characters.at(i)->boundingRect());
         }
     }
 }
 
-TileMapWidget::TileMapWidget(QGraphicsWidget *parent) :
-    QGraphicsWidget(parent)
+void TileScene::loadTiles(QString filename)
 {
-    // Load the tileset.png resource into the tile list
     QImage img;
-    img.load(":/tileset.png");
-    QImage mask = img.createMaskFromColor(QColor(255, 255, 255).rgb());//, Qt::MaskOutColor);
+    img.load(filename);
+    QImage mask = img.createMaskFromColor(QColor(255, 255, 255).rgb());
     qDebug() << "Img: " << img.width() << "x" << img.height();
-    for (int y = 0; y < img.height() / 32; y++)
+    for (int y = 0; y < img.height() / TILE_HEIGHT; y++)
     {
-        for (int x = 0; x < img.width() / 32; x++)
+        for (int x = 0; x < img.width() / TILE_WIDTH; x++)
         {
-            QPixmap *tilepix = new QPixmap(QPixmap::fromImage(img.copy(x * 32, y * 32, 32, 32)));
-            tilepix->setMask(QBitmap::fromImage(mask.copy(x * 32, y * 32, 32, 32)));
+            QPixmap *tilepix = new QPixmap(QPixmap::fromImage(img.copy(x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT)));
+            tilepix->setMask(QBitmap::fromImage(mask.copy(x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT)));
             tiles.push_back(tilepix);
         }
     }
-    qDebug() << "Tiles loaded: " << tiles.size() << "(" << img.width() / 32 << "x" << img.height() / 32 << ")";
+    qDebug() << "Tiles loaded: " << tiles.size() << "(" << img.width() / TILE_WIDTH << "x" << img.height() / TILE_HEIGHT << ")";
+}
 
-    // Read map data
+void TileScene::loadMap(QString filename)
+{
     qDebug() << "Opening the map file";
-    QFile* file = new QFile(":/map.tmx");
+    QFile* file = new QFile(filename);
     file->open(QIODevice::ReadOnly | QIODevice::Text);
     QXmlStreamReader xml(file);
 
-    // Find first "layer" tag (ground)
-    do {
-        xml.readNext();
-    } while (xml.name() != "layer");
-    xml.readNext(); // Now at "data" tag
-    // Parser will be at tile data at next read
+    // The xml file from the Tiled editor is not very good about putting useful data into the tag attributes.
+    // For instance, the 'tile' elements don't list the x/y of the tile!  By convention, the top left tile comes first
+    // and proceeds right then down.  Likewise, the first 'layer' section is the lowest Z, followed by higher ones.
+    // We exploit this with a very dumb parsing scheme.
 
-    qDebug() << "Filling the grid";
-    // Fill the grid with tile objects
-    QGraphicsGridLayout *grid = new QGraphicsGridLayout();
-    for (int y = 0; y < 100; y++)
+    for (int z = 0; z < LAYER_COUNT; z++)
     {
-        for (int x = 0; x < 100; x++)
+        qDebug() << "Reading layer " << z;
+        for (int y = 0; y < MAP_HEIGHT; y++)
         {
-            grid->addItem(new Tile(32, 32, this), y, x);
+            for (int x = 0; x < MAP_WIDTH; x++)
+            {
+                do {
+                    xml.readNext();
+                    if (xml.error() != xml.NoError) {
+                        qDebug() << "Xml read error: " << xml.errorString();
+                        return;
+                    }
+                } while (!xml.isStartElement() || xml.name() != "tile");
+                int id = xml.attributes().at(0).value().toString().toInt(); // Tile id
+                //qDebug() << "Tile ID:" << id;
+                // tmx tile ids are 1-based with 0 indicating no tile
+                if (id) {
+                    QGraphicsPixmapItem *tile = addPixmap(*tiles.at(id - 1));
+                    tile->setPos(x * TILE_WIDTH, y * TILE_HEIGHT);
+                    tile->setZValue(z);
+                }
+            }
         }
     }
-    grid->setSpacing(0); // No borders between tiles
-    this->setLayout(grid);
-
-    // Read the layer data into the grid
-    for (int i = 0; i < 4; i++) {
-        qDebug() << "Reading layer " << i;
-        readLayer(xml, grid, tiles, i);
-    }
-    //setFocusPolicy(Qt::StrongFocus);
-    //setFlag(ItemIsFocusable);
-    //grabKeyboard();
-}
-
-TileMapWidget::~TileMapWidget()
-{
-    for (int i = 0; i < tiles.count(); i++)
-    {
-        delete tiles.at(i);
-        tiles.replace(i, 0);
-    }
-    tiles.clear();
-}
-
-void TileMapWidget::keyPressEvent(QKeyEvent *event)
-{
-    /*if (event->key() == Qt::Key_D) {
-        this->setPos(this->x() - 1, this->y());
-        event->accept();
-    } else {
-        event->ignore();
-    }*/
-    event->ignore();
-}
-
-void TileMapWidget::keyReleaseEvent(QKeyEvent *event)
-{
-    event->ignore();
-}
-
-void TileMapWidget::tick()
-{
-    //qDebug() << this->boundingRect();
 }

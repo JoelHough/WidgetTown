@@ -12,18 +12,18 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     tilescene.cpp \
-    tile.cpp \
     character.cpp \
     characterview.cpp \
-    customproxy.cpp
+    customproxy.cpp \
+    player.cpp
 
 HEADERS  += \
     tilescene.h \
-    tile.h \
     character.h \
     Constants.h \
     characterview.h \
-    customproxy.h
+    customproxy.h \
+    player.h
 
 FORMS    += widgettown.ui
 
