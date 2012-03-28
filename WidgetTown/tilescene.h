@@ -15,7 +15,7 @@ class TileScene : public QGraphicsScene
     Q_OBJECT
 public:
     TileScene(QString tileset, QString map, QObject *parent = 0);
-    //~TileScene();
+    ~TileScene();
 
     void addCharacter(Character *character);
 

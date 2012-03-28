@@ -9,6 +9,7 @@ class Character : public QGraphicsItem
 {
 public:
     Character(QString charsheet, QGraphicsItem *parent = 0);
+    ~Character();
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -17,7 +18,9 @@ public:
 
     bool moved; // Did we move last tick?
     bool animed; // Did we animated last tick?
+
 protected:
+    virtual void oof() {};
     int current_anim;
     int current_frame;
     qreal frame_time;

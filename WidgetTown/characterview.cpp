@@ -16,7 +16,6 @@ CharacterView::CharacterView(QGraphicsScene *scene, QWidget *parent) : QGraphics
 void CharacterView::tick()
 {
     if (character && character->moved) {
-        horizontalScrollBar()->setValue((character->x() + character->boundingRect().width() / 2) * 2 - width() / 2);
-        verticalScrollBar()->setValue((character->y() + character->boundingRect().height() / 2) * 2 - height() / 2);
+        centerOn(character);
     }
 }

@@ -48,3 +48,9 @@ void Player::keyReleaseEvent(QKeyEvent *event)
         break;
     }
 }
+
+void Player::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    Q_UNUSED(event);
+    setFocus();
+}

@@ -18,6 +18,15 @@ TileScene::TileScene(QString tileset, QString map, QObject *parent) : QGraphicsS
     frameTimer.start();
 }
 
+TileScene::~TileScene()
+{
+    qDebug() << "Cleaning up TileScene";
+    for (int i = 0; i < tiles.count(); i++) {
+        delete tiles.at(i);
+    }
+    tiles.clear();
+}
+
 void TileScene::addCharacter(Character *character)
 {
     addItem(character);
@@ -93,4 +102,7 @@ void TileScene::loadMap(QString filename)
             }
         }
     }
+    file->close();
+    delete file;
+    file = 0;
 }

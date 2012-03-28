@@ -6,6 +6,8 @@
 #include <QPainter>
 #include <QKeyEvent>
 
+#include <QtDebug>
+
 Character::Character(QString charsheet, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     QImage img;
@@ -26,6 +28,12 @@ Character::Character(QString charsheet, QGraphicsItem *parent) : QGraphicsItem(p
     frame_time = 0;
 
     shapePath.addEllipse(QRectF(3,24, guyWidth - 6, guyHeight / 2));
+}
+
+Character::~Character()
+{
+    qDebug() << "Cleaning up Character";
+    delete charsheet;
 }
 
 QRectF Character::boundingRect() const
@@ -50,7 +58,7 @@ void Character::tick(qreal elapsedSeconds)
     if (movingDown) dy += 1;
     if (movingLeft) dx -= 1;
     if (movingRight) dx += 1;
-
+    bool hit = false;
     moved = dx != 0 || dy != 0;
     if (moved) {
         QPointF startpos;
@@ -62,6 +70,7 @@ void Character::tick(qreal elapsedSeconds)
         for (int i = 0; i < hits.count(); i++) {
             if (hits.at(i)->zValue() == zValue()) {
                 setPos(startpos);
+                hit = true;
             }
         }
 
@@ -71,9 +80,11 @@ void Character::tick(qreal elapsedSeconds)
         for (int i = 0; i < hits.count(); i++) {
             if (hits.at(i)->zValue() == zValue()) {
                 setPos(startpos);
+                hit = true;
             }
         }
 
+        if (hit) oof();
         frame_time += elapsedSeconds;
     }
 

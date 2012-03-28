@@ -15,7 +15,8 @@ SOURCES += main.cpp\
     character.cpp \
     characterview.cpp \
     customproxy.cpp \
-    player.cpp
+    player.cpp \
+    npc.cpp
 
 HEADERS  += \
     tilescene.h \
@@ -23,7 +24,8 @@ HEADERS  += \
     Constants.h \
     characterview.h \
     customproxy.h \
-    player.h
+    player.h \
+    npc.h
 
 FORMS    += widgettown.ui
 

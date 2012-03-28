@@ -129,7 +129,6 @@ QVariant CustomProxy::itemChange(GraphicsItemChange change, const QVariant &valu
 
 void CustomProxy::updateStep(qreal step)
 {
-    QRectF r = boundingRect();
     setTransform(QTransform()
                  .scale(1 + 3 * step, 1 + 3 * step)
                  .rotate(step * 5, Qt::ZAxis));
