@@ -16,5 +16,5 @@ CharacterView::CharacterView(QGraphicsScene *scene, QWidget *parent) : QGraphics
 
 void CharacterView::tick()
 {
-    horizontalScrollBar()->setValue(horizontalScrollBar()->value() - 1);
+    //horizontalScrollBar()->setValue(horizontalScrollBar()->value() - 1);
 }

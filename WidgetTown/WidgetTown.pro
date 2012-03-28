@@ -14,14 +14,16 @@ SOURCES += main.cpp\
     tilescene.cpp \
     tile.cpp \
     character.cpp \
-    characterview.cpp
+    characterview.cpp \
+    customproxy.cpp
 
 HEADERS  += \
     tilescene.h \
     tile.h \
     character.h \
     Constants.h \
-    characterview.h
+    characterview.h \
+    customproxy.h
 
 FORMS    += widgettown.ui
 
