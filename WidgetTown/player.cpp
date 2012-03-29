@@ -49,6 +49,12 @@ void Player::keyReleaseEvent(QKeyEvent *event)
     }
 }
 
+void Player::focusOutEvent(QFocusEvent *event)
+{
+    Q_UNUSED(event);
+    movingRight = movingLeft = movingUp = movingDown = false;
+}
+
 void Player::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event);

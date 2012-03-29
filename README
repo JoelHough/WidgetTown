@@ -1,1 +1,6 @@
-Simple Qt tile engine for a school project
+It's WidgetTown!  Everyone's favorite CS3505 project by John Wells and Joel Hough!
+
+Here are some tips:
+- WASD to move
+- If WASD isn't moving your character, click on his feet.  The key input goes to whichever widget you last clicked, so if you interact with a calendar, for example, it sees the WASDs until you click your player.
+- Our widgets are in windows, which you can move around, resize, and close!  Careful though, close it and it'll be gone until you restart.
