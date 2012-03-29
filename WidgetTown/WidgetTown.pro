@@ -26,8 +26,6 @@ HEADERS  += \
     player.h \
     npc.h
 
-FORMS    += widgettown.ui
-
 OTHER_FILES += \
     tileset.png \
     map.tmx \
@@ -37,4 +35,4 @@ OTHER_FILES += \
 RESOURCES += \
     resources.qrc
 
-QMAKE_POST_LINK += $$quote(cp $${PWD}/bwah.mp3 .)
+QMAKE_POST_LINK += $$quote(cp -n $${PWD}/bwah.mp3 . || true)
