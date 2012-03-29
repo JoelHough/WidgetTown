@@ -1,5 +1,16 @@
 It's WidgetTown!  Everyone's favorite CS3505 project by John Wells and Joel Hough!
 
+To build:
+cd WidgetTown
+qmake
+make
+
+To run:
+./WidgetTown
+
+Difference from ORIG:
+We used ORIG's CustomProxy, but with a different animation.  Everything else was "inspired by" the demo.
+
 Here are some tips:
 - WASD to move
 - If WASD isn't moving your character, click on his feet.  The key input goes to whichever widget you last clicked, so if you interact with a calendar, for example, it sees the WASDs until you click your player.
